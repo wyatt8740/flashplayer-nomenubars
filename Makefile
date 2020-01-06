@@ -28,3 +28,4 @@ clean:
 install: flash_nomenus_override.so
 	mkdir -p $(INSTDIR)
 	cp $< $(INSTDIR)
+	strip -s $(INSTDIR)/$<

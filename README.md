@@ -12,7 +12,10 @@ window and hide all window decorations, effectively equating to full-screen
 mode but with a fully functional keyboard.
 
 I use FVWM, and already had it configured so a keyboard shortcut could turn
-off all decorations for a given window.
+off all decorations for a given window. Other WM's may have different
+mechanisms for doing this.
+
+It's also nice for just having a less-cluttered window in general.
 
 ### Installation
 
@@ -21,7 +24,8 @@ make
 make install
 ```
 will put the library in `~/lib`. To change the install path, edit the Makefile.
-Then, you can run flash, either with `flashplayer_nomenu.sh` or manually:
+Then, you can run flash, either with `flashplayer_nomenu.sh` (a wrapper script;
+treat it like invoking `flashplayer` from the CLI normally) or manually with:
 
 ```
 LD_PRELOAD=$HOME/lib/flash_nomenus_override.so flashplayer [args]
