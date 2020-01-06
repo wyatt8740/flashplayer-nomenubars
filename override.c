@@ -25,10 +25,10 @@
  * malloc(1).
 */
 
-#define RET malloc(1)
+/* define RET malloc(1)*/
 /* alternative,
  * probably-working-but-can't-guarantee-without-flash's-source-code form: */
-/* #define RET '\0' */
+#define RET '\0'
 
 GtkWidget* gtk_menu_bar_new(void)
 {
