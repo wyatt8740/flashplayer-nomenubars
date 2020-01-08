@@ -1,5 +1,4 @@
-# Flashplayer-NoWidgets
-## Standalone Flash Player, now without menu bars.
+# Flashplayer-menuless
 
 When Adobe's standalone Flash player projector is run in full-screen on Linux,
 keyboard controls no longer work. And even if window decorations are turned off
@@ -23,17 +22,26 @@ It's also nice for just having a less-cluttered window in general.
 make
 make install
 ```
-will put the library in `~/lib`. To change the install path, edit the Makefile.
-Then, you can run flash, either with `flashplayer_nomenu.sh` (a wrapper script;
+will put the library in `$INSTDIR/lib` and `flashplayer_nomenu` in
+`$INSTDIR/bin`. $INSTDIR defaults to `/usr/local`.
+To change the install path, edit the Makefile or run
+`make install INSTDIR=/path/to/install`.
+Then, you can run flash, either with `flashplayer_nomenu` (a wrapper script;
 treat it like invoking `flashplayer` from the CLI normally) or manually with:
 
 ```
-LD_PRELOAD=$HOME/lib/flash_nomenus_override.so flashplayer [args]
+LD_PRELOAD=/path/to/lib/flash_nomenus_override.so flashplayer [args]
 ```
+
+Do note that the script assumes `flashplayer` is the name of your projector
+binary, and that it is in a directory in your $PATH variable.
 
 Ignore the console warnings about stuff like `invalid (NULL) pointer instance`;
 this is a side-effect of the library stub and shouldn't impact the ability to
-play flash files. Either pass the .swf as a command-line argument, or use
+play flash files. Or add `2>/dev/null` to the beginning of the line in the
+script that invokes the player to hide the warning messages.
+
+Either pass the .swf as a command-line argument, or use
 `ctrl-O` to open one after launching the player.
 
 ### A few details (what I learned doing this)
@@ -52,18 +60,10 @@ the final GTK+ 2 version of ['gtkparasite'](https://github.com/chipx86/gtkparasi
 (0.2.0.71).
 
 Since GTK+ 2 programs typically use `g_free()` to free allocated memory, and
-`g_free()` does nothing if given a null pointer, it is likely safe in this
+`g_free()` does nothing if given a null pointer, it is safe in this
 case to just have the stub functions return 'null' (zero) without ever
-`malloc`'ing anything.
+`malloc`'ing anything as the real functions would normally do.
 
-In my experience this has worked, but I opted to use malloc(1) in the version
-I am sharing because it's a little less fragile and assumes the worst from
-Adobe (that Adobe's developers used ANSI C free() instead of g_free() from
-glib). This is not out ouf malice towards Adobe, but out of being cautious.
-Without source code to refer to, it is hard to know which they used and
-malloc(1) should be more tolerant of either free() variant.
-
-To save maybe a couple of bytes of RAM, change the definition of `RET` from
-`malloc(1)` to `'\0'` inside of `override.c`.
+In my experience this has worked fine.
 
 I don't expect others will use this, but if you do, have fun!

@@ -1,4 +1,3 @@
-/* #include <gtk-2.0/gtk/gtkmenubar.h>*/
 #include <gtk/gtk.h>
 
 /* When the standalone projector is run in full-screen on Linux, keyboard
@@ -12,23 +11,17 @@
  * over the ones that would normally be responsible for creating a panel, by
  * making our own small stub library take precedence over the original libgtk.
 
- * These are the kinds of GTK widgets that flashplayer tries to create, as 
- * verified using the GTK+ 2 version of 'gtkparasite'.
+ * The widgets overridden below are the kinds of GTK widgets that flashplayer
+ * tries to create, as verified using the GTK+ 2 version of 'gtkparasite'.
 
  * Since GTK+ 2 programs typically use g_free() to free allocated memory, and
  * g_free() does nothing if given a null pointer, it is likely safe in this
  * case to just have the stub functions return 'null' (zero) without ever
  * malloc'ing anything.
+ */
 
- * If this causes any stability issues (like if Adobe's developers decided to
- * use ANSI C's free() instead of glib's g_free()), replace the '\0's with
- * malloc(1).
-*/
-
-/* define RET malloc(1)*/
-/* alternative,
- * probably-working-but-can't-guarantee-without-flash's-source-code form: */
-#define RET '\0'
+/* return a null pointer from all the following functions (0) */
+#define RET 0
 
 GtkWidget* gtk_menu_bar_new(void)
 {
