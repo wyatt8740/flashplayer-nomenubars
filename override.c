@@ -1,4 +1,5 @@
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 /* When the standalone projector is run in full-screen on Linux, keyboard
  * controls no longer work. And even if window decorations are turned off on
@@ -22,6 +23,24 @@
 
 /* return a null pointer from all the following functions (0) */
 #define RET 0
+/*#define RET malloc(1)*/
+
+/*void gtk_window_fullscreen(GtkWindow *window)
+{
+
+}*/
+void gtk_window_unfullscreen(GtkWindow *window)
+{
+  gtk_widget_hide((GtkWidget *)window);
+  gtk_window_set_decorated(window, FALSE);
+  gtk_widget_show((GtkWidget *)window);
+  gtk_window_maximize(window);
+/*  gtk_window_set_accept_focus (window, TRUE);
+  gtk_window_set_decorated(window, TRUE);
+    gtk_window_unmaximize(window);*/
+  }
+
+//  gtk_window_set_decorated();
 
 GtkWidget* gtk_menu_bar_new(void)
 {
